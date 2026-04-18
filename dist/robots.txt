@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dollcg24.github.io/sitemap.xml

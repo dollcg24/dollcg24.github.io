@@ -1,10 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-* {
-  font-family: 'Montserrat', sans-serif;
+html {
+  scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
+* {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-display-italic {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+}
+
+/* backward compat — maps cherry to display italic */
 .font-cherry {
-  font-family: 'Cherry Swash', cursive;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
 }

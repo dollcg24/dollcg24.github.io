@@ -1,19 +1,15 @@
 import { useContext, Fragment, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FiArrowLeft, FiClock, FiUsers, FiBriefcase, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { ThemeContext, CaseStudyContainer, Section, Subtitle, SubSubtitle, Paragraph, BulletList, ListItem, ImageFrame, PersonaCard } from '../../components/ui'
+import { motion } from 'motion/react'
+import { FiClock, FiUsers, FiBriefcase, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import {
+  ThemeContext, CaseStudyContainer, CaseStudyHeader,
+  Section, Subtitle, SubSubtitle, Paragraph,
+  BulletList, ListItem, ImageFrame, PersonaCard, MetaGrid,
+} from '../../components/ui'
+import SEO from '../../components/SEO'
 
-function MetaItem({ icon: Icon, label, value }) {
-  const isDark = useContext(ThemeContext)
-  return (
-    <div className="flex items-start gap-2">
-      <Icon size={15} className={`mt-0.5 flex-shrink-0 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-      <span className={`text-xs sm:text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-        <span className="font-semibold">{label}:</span> {value}
-      </span>
-    </div>
-  )
-}
+// ─── Design process flow ───────────────────────────────────────────────────────
 
 const STEPS = [
   {
@@ -21,116 +17,111 @@ const STEPS = [
     description: 'Understood the requirement and defined the problem statement.',
     side: 'left',
     size: 64,
-    gradient: 'linear-gradient(145deg, #93c5fd, #60a5fa)',
-    shadow: '0 4px 20px rgba(96,165,250,0.35)',
+    gradient: 'linear-gradient(145deg, #F0C8A8, #E8A87A)',
+    shadow: '0 4px 20px rgba(232,168,122,0.4)',
   },
   {
     label: 'Research',
     description: 'Collaborated with experts to understand the process.',
     side: 'right',
     size: 78,
-    gradient: 'linear-gradient(145deg, #818cf8, #6366f1)',
-    shadow: '0 4px 20px rgba(99,102,241,0.35)',
+    gradient: 'linear-gradient(145deg, #E09060, #C87040)',
+    shadow: '0 4px 20px rgba(200,112,64,0.4)',
   },
   {
     label: 'Ideate',
     description: 'Brainstorming sessions to create interactive experiences.',
     side: 'left',
     size: 92,
-    gradient: 'linear-gradient(145deg, #a78bfa, #7c3aed)',
-    shadow: '0 4px 20px rgba(124,58,237,0.35)',
+    gradient: 'linear-gradient(145deg, #C87040, #B06030)',
+    shadow: '0 4px 20px rgba(176,96,48,0.4)',
   },
   {
     label: 'Prototype',
-    description: 'Designed wireframes for navigating crime scenes, using forensic tools.',
+    description: 'Designed wireframes for navigating crime scenes using forensic tools.',
     side: 'right',
     size: 106,
-    gradient: 'linear-gradient(145deg, #818cf8, #4f46e5)',
-    shadow: '0 4px 20px rgba(79,70,229,0.35)',
+    gradient: 'linear-gradient(145deg, #A05028, #884020)',
+    shadow: '0 4px 20px rgba(136,64,32,0.4)',
   },
   {
     label: 'Test',
     description: 'Conducted user testing with educators capturing usability insights.',
     side: 'left',
     size: 120,
-    gradient: 'linear-gradient(145deg, #6366f1, #3730a3)',
-    shadow: '0 4px 20px rgba(55,48,163,0.4)',
+    gradient: 'linear-gradient(145deg, #703418, #3D1C0A)',
+    shadow: '0 4px 20px rgba(61,28,10,0.45)',
   },
 ]
 
 function DesignProcessFlow() {
   const isDark = useContext(ThemeContext)
-  const textColor = isDark ? 'text-gray-400' : 'text-gray-500'
+  const textStyle = { color: isDark ? '#9A8470' : '#7A6752', fontSize: '0.875rem', lineHeight: '1.4' }
+  const lineColor = isDark ? '#2E1F12' : '#E2D5C0'
 
   return (
     <>
-      {/* Desktop: alternating left/right */}
+      {/* Desktop */}
       <div className="hidden sm:flex flex-col items-center">
         {STEPS.map((step, i) => (
           <Fragment key={step.label}>
-            <div className="flex items-center w-full">
-              {/* Left slot */}
-              <div className={`flex-1 pr-8 text-right text-sm leading-snug ${textColor} ${step.side === 'left' ? '' : 'invisible'}`}>
+            <motion.div
+              className="flex items-center w-full"
+              initial={{ opacity: 0, scale: 0.85 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: i * 0.1, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <div className={`flex-1 pr-8 text-right ${step.side === 'left' ? '' : 'invisible'}`} style={textStyle}>
                 {step.description}
               </div>
-
-              {/* Circle */}
               <div
-                className="flex-shrink-0 rounded-full flex items-center justify-center font-semibold text-white"
+                className="flex-shrink-0 rounded-full flex items-center justify-center font-bold text-white"
                 style={{
-                  width: step.size,
-                  height: step.size,
-                  background: step.gradient,
-                  boxShadow: step.shadow,
-                  fontSize: step.size >= 100 ? '0.9rem' : step.size >= 80 ? '0.8rem' : '0.75rem',
+                  width: step.size, height: step.size,
+                  background: step.gradient, boxShadow: step.shadow,
+                  fontSize: step.size >= 100 ? '0.85rem' : step.size >= 80 ? '0.78rem' : '0.72rem',
                 }}
               >
                 {step.label}
               </div>
-
-              {/* Right slot */}
-              <div className={`flex-1 pl-8 text-left text-sm leading-snug ${textColor} ${step.side === 'right' ? '' : 'invisible'}`}>
+              <div className={`flex-1 pl-8 text-left ${step.side === 'right' ? '' : 'invisible'}`} style={textStyle}>
                 {step.description}
               </div>
-            </div>
-
-            {/* Connector arrow */}
+            </motion.div>
             {i < STEPS.length - 1 && (
               <svg width="14" height="24" viewBox="0 0 14 24" fill="none" className="my-0.5">
-                <line x1="7" y1="0" x2="7" y2="17" stroke={isDark ? '#475569' : '#d1d5db'} strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M2 13 L7 19 L12 13" stroke={isDark ? '#475569' : '#d1d5db'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="7" y1="0" x2="7" y2="17" stroke={lineColor} strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M2 13 L7 19 L12 13" stroke={lineColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
           </Fragment>
         ))}
       </div>
 
-      {/* Mobile: centered stacked */}
+      {/* Mobile */}
       <div className="sm:hidden flex flex-col items-center">
         {STEPS.map((step, i) => (
           <Fragment key={step.label}>
-            <div className="flex flex-col items-center gap-2">
+            <motion.div
+              className="flex flex-col items-center gap-2"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: i * 0.08, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
               <div
-                className="rounded-full flex items-center justify-center font-semibold text-white"
-                style={{
-                  width: step.size * 0.75,
-                  height: step.size * 0.75,
-                  background: step.gradient,
-                  boxShadow: step.shadow,
-                  fontSize: '0.75rem',
-                }}
+                className="rounded-full flex items-center justify-center font-bold text-white"
+                style={{ width: step.size * 0.75, height: step.size * 0.75, background: step.gradient, boxShadow: step.shadow, fontSize: '0.72rem' }}
               >
                 {step.label}
               </div>
-              <p className={`text-xs text-center leading-snug px-6 ${textColor}`}>
-                {step.description}
-              </p>
-            </div>
-
+              <p className="text-xs text-center leading-snug px-6" style={textStyle}>{step.description}</p>
+            </motion.div>
             {i < STEPS.length - 1 && (
               <svg width="14" height="24" viewBox="0 0 14 24" fill="none" className="my-1">
-                <line x1="7" y1="0" x2="7" y2="17" stroke={isDark ? '#475569' : '#d1d5db'} strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M2 13 L7 19 L12 13" stroke={isDark ? '#475569' : '#d1d5db'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="7" y1="0" x2="7" y2="17" stroke={lineColor} strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M2 13 L7 19 L12 13" stroke={lineColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
           </Fragment>
@@ -140,7 +131,9 @@ function DesignProcessFlow() {
   )
 }
 
-const MOBILE_SLIDES = [
+// ─── Mobile image slider ───────────────────────────────────────────────────────
+
+const SLIDES = [
   { src: '/images/crime-labs/mobile-1.png', alt: 'Responsive design — screen 1' },
   { src: '/images/crime-labs/mobile-2.png', alt: 'Responsive design — screen 2' },
 ]
@@ -148,90 +141,61 @@ const MOBILE_SLIDES = [
 function MobileSlider() {
   const isDark = useContext(ThemeContext)
   const [current, setCurrent] = useState(0)
-  const total = MOBILE_SLIDES.length
-
+  const total = SLIDES.length
   const go = (dir) => setCurrent(i => (i + dir + total) % total)
-
   const peekIdx = (current + 1) % total
   const peekOnRight = peekIdx > current
+  const accent = isDark ? '#CF7A3E' : '#9B4F1E'
+  const muted  = isDark ? '#9A8470' : '#7A6752'
 
-  const btnClass = (enabled) => `flex-shrink-0 rounded-full p-2.5 transition-all ${
-    enabled
-      ? `cursor-pointer hover:scale-105 active:scale-95 ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`
-      : `cursor-default ${isDark ? 'text-slate-700' : 'text-gray-200'}`
-  }`
+  const BtnStyle = (active) => ({
+    color: active ? muted : isDark ? '#2E1F12' : '#E2D5C0',
+    cursor: active ? 'pointer' : 'default',
+    flexShrink: 0,
+    padding: '10px',
+    borderRadius: '50%',
+    transition: 'color 0.2s',
+  })
 
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="flex items-center gap-4 sm:gap-6 w-full justify-center">
-
-        <button
-          onClick={() => current > 0 && go(-1)}
-          aria-label="Previous"
-          disabled={current === 0}
-          className={btnClass(current > 0)}
-        >
+        <button onClick={() => current > 0 && go(-1)} aria-label="Previous" disabled={current === 0} style={BtnStyle(current > 0)}>
           <FiChevronLeft size={22} />
         </button>
 
-        {/* Stacked cards — container is wider than front to show the peek side */}
         <div className="relative w-full max-w-[230px] sm:max-w-[260px]">
-
-          {/* Peek image — smaller, anchored to its side, offset down */}
           <div
-            className="absolute opacity-40 rounded-2xl overflow-hidden transition-all duration-300"
-            style={{
-              width: '74%',
-              [peekOnRight ? 'right' : 'left']: 0,
-              top: '5%',
-              zIndex: 0,
-            }}
+            className="absolute rounded-2xl overflow-hidden transition-all duration-300"
+            style={{ width: '74%', [peekOnRight ? 'right' : 'left']: 0, top: '5%', zIndex: 0, opacity: 0.35 }}
           >
-            <img src={MOBILE_SLIDES[peekIdx].src} alt="" className="w-full h-auto" />
+            <img src={SLIDES[peekIdx].src} alt="" className="w-full h-auto" />
           </div>
-
-          {/* Front image — larger, anchored to the opposite side */}
           <div
-            className="relative z-10 rounded-2xl overflow-hidden transition-all duration-300"
-            style={{
-              width: '88%',
-              marginLeft: peekOnRight ? 0 : 'auto',
-              marginRight: peekOnRight ? 'auto' : 0,
-            }}
+            className="relative z-10 rounded-2xl overflow-hidden shadow-xl transition-all duration-300"
+            style={{ width: '88%', marginLeft: peekOnRight ? 0 : 'auto', marginRight: peekOnRight ? 'auto' : 0 }}
           >
-            <img
-              key={current}
-              src={MOBILE_SLIDES[current].src}
-              alt={MOBILE_SLIDES[current].alt}
-              className="w-full h-auto"
-            />
+            <img key={current} src={SLIDES[current].src} alt={SLIDES[current].alt} className="w-full h-auto" />
           </div>
-
         </div>
 
-        <button
-          onClick={() => current < total - 1 && go(1)}
-          aria-label="Next"
-          disabled={current === total - 1}
-          className={btnClass(current < total - 1)}
-        >
+        <button onClick={() => current < total - 1 && go(1)} aria-label="Next" disabled={current === total - 1} style={BtnStyle(current < total - 1)}>
           <FiChevronRight size={22} />
         </button>
-
       </div>
 
-      {/* Dots */}
       <div className="flex items-center gap-2">
-        {MOBILE_SLIDES.map((_, i) => (
+        {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`rounded-full transition-all duration-200 ${
-              i === current
-                ? `w-5 h-2 ${isDark ? 'bg-white' : 'bg-gray-800'}`
-                : `w-2 h-2 ${isDark ? 'bg-slate-600' : 'bg-gray-300'}`
-            }`}
+            className="rounded-full transition-all duration-200"
+            style={{
+              width: i === current ? '20px' : '8px',
+              height: '8px',
+              background: i === current ? accent : (isDark ? '#2E1F12' : '#E2D5C0'),
+            }}
           />
         ))}
       </div>
@@ -239,126 +203,154 @@ function MobileSlider() {
   )
 }
 
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 export default function CrimeLabsCaseStudy({ isDark }) {
   const navigate = useNavigate()
 
   return (
     <ThemeContext.Provider value={isDark}>
+      <SEO
+        title="Crime Investigation Virtual Labs"
+        description="UX case study on designing Crime Investigation Virtual Labs — an interactive digital platform for forensic science education using immersive simulations."
+        path="/crime-labs"
+        image="/images/crime-labs/thumbnail.png"
+      />
       <CaseStudyContainer>
 
-        {/* Header */}
-        <div className="flex items-start gap-4">
-          <button
-            onClick={() => navigate('/')}
-            className={`flex-shrink-0 rounded-full border p-2 cursor-pointer hover:scale-105 transition-all ${isDark ? 'border-gray-600 text-gray-300 hover:border-gray-400' : 'border-gray-900 text-gray-900'}`}
-            aria-label="Go back"
-          >
-            <FiArrowLeft size={22} />
-          </button>
-          <h1 className="text-2xl sm:text-3xl font-bold leading-tight">
-            Crime Investigation Virtual Labs
-          </h1>
+        <CaseStudyHeader
+          title="Crime Investigation Virtual Labs"
+          meta="Sep 2020 – Jan 2021"
+          thumbnail="/images/crime-labs/thumbnail.png"
+          onBack={() => {
+            navigate('/')
+            setTimeout(() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }), 650)
+          }}
+        />
+
+        <div className="pt-12 space-y-14 sm:space-y-16">
+
+          <Section>
+            <Subtitle>Overview</Subtitle>
+            <Paragraph>
+              Forensic education didn't give students hands-on ways to learn real-world scenarios. We designed realistic virtual forensic scenarios for Cengage Learning, replicating real-world details to provide users with immersive and accurate investigative experiences.
+            </Paragraph>
+            <MetaGrid items={[
+              { icon: FiClock,     label: 'Duration',  value: '6 months' },
+              { icon: FiUsers,     label: 'Team Size', value: '10' },
+              { icon: FiBriefcase, label: 'Role',      value: 'Jr. UX Designer' },
+            ]} />
+          </Section>
+
+          <Section>
+            <Subtitle>Challenges</Subtitle>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+              {[
+                {
+                  num: '01',
+                  title: 'Concept Translation',
+                  desc: 'Translating complex forensic procedures and concepts into engaging, accurate virtual interactions.',
+                },
+                {
+                  num: '02',
+                  title: 'Realism vs Constraints',
+                  desc: 'Maintaining investigative authenticity while working within technical and development constraints.',
+                },
+                {
+                  num: '03',
+                  title: 'Diverse Learners',
+                  desc: 'Designing for varied learning styles, ability levels, and degrees of technology access.',
+                },
+              ].map(({ num, title, desc }) => (
+                <div
+                  key={num}
+                  className="rounded-2xl p-6 border flex flex-col gap-3"
+                  style={{
+                    background: isDark ? '#1F130A' : '#EDE2D1',
+                    borderColor: isDark ? '#2E1F12' : '#E2D5C0',
+                  }}
+                >
+                  <span
+                    className="font-display text-3xl font-bold leading-none"
+                    style={{ color: isDark ? '#CF7A3E' : '#9B4F1E' }}
+                  >
+                    {num}
+                  </span>
+                  <p className="font-semibold text-sm" style={{ color: isDark ? '#F2E6D2' : '#2A1A0E' }}>
+                    {title}
+                  </p>
+                  <p className="text-sm leading-relaxed" style={{ color: isDark ? '#9A8470' : '#7A6752' }}>
+                    {desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section>
+            <Subtitle>Design Process</Subtitle>
+            <DesignProcessFlow />
+          </Section>
+
+          <Section>
+            <Subtitle>User Persona</Subtitle>
+            <PersonaCard
+              bgColor="bg-[#5C3C22]/90"
+              name="Emma Williamson"
+              image="/images/shared/persona-female.png"
+              items={[
+                { label: 'Age', description: '18' },
+                { label: 'Occupation', description: 'Student' },
+                { label: 'Location', description: 'California, USA' },
+                { label: 'Tech Literacy', description: 'High' },
+              ]}
+              quote="I want to experience a practical forensic lab where I can perform experiments."
+              goals={[
+                'Visualize and experience realistic scenarios.',
+                'Develop skills that align with real-world standards.',
+                'Learn forensic techniques without needing physical lab access.',
+              ]}
+              painPoints={[
+                'Lack of practical experience.',
+                'Difficulty visualizing real scenarios.',
+                'Limited access to labs.',
+                'Risky real-world practice.',
+              ]}
+            />
+          </Section>
+
+          <Section>
+            <Subtitle>Solution & Wireframes</Subtitle>
+            <Paragraph>
+              We designed a virtual investigation lab around a simulated murder case, requiring students to find and analyze evidence to identify the culprit. The lab includes a fully interactive crime scene with evidence collection and analysis tools — closely replicating real-world forensic investigations in a safe, controlled environment.
+            </Paragraph>
+            <Section>
+              <SubSubtitle>Lab Guide — Navigating & Interacting</SubSubtitle>
+              <ImageFrame src="/images/crime-labs/screen-1.png" alt="Lab guide" />
+            </Section>
+            <Section>
+              <SubSubtitle>Analyzing the Crime Scene</SubSubtitle>
+              <ImageFrame src="/images/crime-labs/screen-2.png" alt="Analyzing the crime scene" />
+            </Section>
+            <Section>
+              <SubSubtitle>Collecting the Evidence</SubSubtitle>
+              <ImageFrame src="/images/crime-labs/screen-3.png" alt="Collecting the evidence" />
+            </Section>
+          </Section>
+
+          <Section>
+            <Subtitle>Responsive Designs</Subtitle>
+            <MobileSlider />
+          </Section>
+
+          <Section>
+            <Subtitle>Conclusion</Subtitle>
+            <Paragraph>
+              The virtual forensic lab improved student engagement and increased concept retention based on client feedback. It provided a safe, accessible way for learners to gain hands-on experience with real-world investigative scenarios — without the constraints of a physical lab.
+            </Paragraph>
+          </Section>
+
         </div>
-
-        {/* Overview */}
-        <Section>
-          <Paragraph>
-            <p className="mb-3">Forensic education didn't give students hands-on ways to learn real-world scenarios. A virtual environment was needed to help them explore the world of forensics.</p>
-            <p>We designed realistic virtual forensic scenarios for Cengage Learning, replicating real-world details to provide users with immersive and accurate investigative experiences.</p>
-          </Paragraph>
-          <div className={`rounded-2xl p-5 grid grid-cols-1 sm:grid-cols-3 gap-3 ${isDark ? 'bg-slate-900' : 'bg-gray-50'}`}>
-            <MetaItem icon={FiClock} label="Duration" value="6 months" />
-            <MetaItem icon={FiUsers} label="Team Size" value="10" />
-            <MetaItem icon={FiBriefcase} label="Role" value="Jr. UX Designer" />
-          </div>
-        </Section>
-
-        {/* Challenges */}
-        <Section>
-          <Subtitle>Challenges</Subtitle>
-          <Paragraph>
-            <BulletList>
-              <ListItem description="Translating complex forensic concepts into virtual interactions." />
-              <ListItem description="Maintaining realism while working within technical constraints." />
-              <ListItem description="Designing for diverse learners and access needs." />
-            </BulletList>
-          </Paragraph>
-        </Section>
-
-        {/* Design Process */}
-        <Section>
-          <Subtitle>Design Process</Subtitle>
-          <DesignProcessFlow />
-        </Section>
-
-        {/* User Persona */}
-        <Section>
-          <Subtitle>User Persona</Subtitle>
-          <PersonaCard
-            bgColor="bg-[#3D3A8F]/90"
-            name="Emma Williamson"
-            image="/images/shared/persona-female.png"
-            items={[
-              { label: 'Age', description: '18' },
-              { label: 'Occupation', description: 'Student' },
-              { label: 'Location', description: 'California, USA' },
-              { label: 'Tech Literacy', description: 'High' },
-            ]}
-            quote="I want to experience a practical forensic labs where I can perform experiments."
-            goals={[
-              'Visualize and experience realistic scenarios.',
-              'Develop skills that align with real-world standards.',
-              'Learn forensic techniques without needing physical lab access.',
-            ]}
-            painPoints={[
-              'Lack of practical experience.',
-              'Difficulty in visualizing real scenarios.',
-              'Limited access to labs.',
-              'Risky real-world practice.',
-            ]}
-          />
-        </Section>
-
-        {/* Solution and Wireframes */}
-        <Section>
-          <Subtitle>Solution and Wireframes</Subtitle>
-          <Paragraph>
-            <p className="mb-3">To address these challenges, we designed a virtual investigation lab around a simulated murder case, requiring students to find and analyze evidence to identify the culprit.</p>
-            <p className="mb-3">It includes a fully interactive crime scene with evidence collection and analysis tools, allowing students to engage in realistic investigative procedures.</p>
-            <p>This virtual lab closely replicates real-world forensic investigations, providing hands-on experience in a safe and controlled environment.</p>
-          </Paragraph>
-
-          <Section>
-            <SubSubtitle>Lab guide — navigating and interacting within the lab</SubSubtitle>
-            <ImageFrame src="/images/crime-labs/screen-1.png" alt="Lab guide" />
-          </Section>
-
-          <Section>
-            <SubSubtitle>Analyzing the crime scene</SubSubtitle>
-            <ImageFrame src="/images/crime-labs/screen-2.png" alt="Analyzing the crime scene" />
-          </Section>
-
-          <Section>
-            <SubSubtitle>Collecting the evidence</SubSubtitle>
-            <ImageFrame src="/images/crime-labs/screen-3.png" alt="Collecting the evidence" />
-          </Section>
-        </Section>
-
-        {/* Responsive Designs */}
-        <Section>
-          <Subtitle>Responsive Designs</Subtitle>
-          <MobileSlider />
-        </Section>
-
-        {/* Conclusion */}
-        <Section>
-          <Subtitle>Conclusion</Subtitle>
-          <Paragraph>
-            <p className="mb-3">The virtual forensic lab improved student engagement and increased concept retention based on client feedback.</p>
-            <p>It provided a safe, accessible way for learners to gain hands-on experience with real-world scenarios.</p>
-          </Paragraph>
-        </Section>
-
       </CaseStudyContainer>
     </ThemeContext.Provider>
   )
