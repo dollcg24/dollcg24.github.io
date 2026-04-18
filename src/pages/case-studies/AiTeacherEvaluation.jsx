@@ -3,7 +3,7 @@ import { FiClock, FiUsers, FiBriefcase, FiTool } from 'react-icons/fi'
 import {
   ThemeContext, CaseStudyContainer, CaseStudyHeader,
   Section, Subtitle, SubSubtitle, Paragraph,
-  BulletList, ListItem, ImageFrame, StatCard, MetaGrid,
+  BulletList, ListItem, ImageStrip, StatCard, MetaGrid,
 } from '../../components/ui'
 import SEO from '../../components/SEO'
 
@@ -16,14 +16,14 @@ export default function AiTeacherEvaluationCaseStudy({ isDark }) {
         title="Integrating AI in Teacher Evaluation – LMS"
         description="UX case study on integrating AI-powered teacher evaluation tools into an LMS, improving assessment accuracy and reducing bias."
         path="/ai-teacher-evaluation"
-        image="/images/ai-teacher-evaluation/thumbnail.png"
+        image="/images/ai-teacher-evaluation/thumbnail.webp"
       />
       <CaseStudyContainer>
 
         <CaseStudyHeader
           title="Integrating AI in Teacher Evaluation"
           meta="LMS Feature · Jun 2024 – Aug 2024"
-          thumbnail="/images/ai-teacher-evaluation/thumbnail.png"
+          thumbnail="/images/ai-teacher-evaluation/thumbnail.webp"
           onBack={() => {
             navigate('/')
             setTimeout(() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }), 650)
@@ -144,22 +144,12 @@ export default function AiTeacherEvaluationCaseStudy({ isDark }) {
 
           <Section>
             <Subtitle>Designs</Subtitle>
-            <Section>
-              <SubSubtitle>Teacher Evaluation Page</SubSubtitle>
-              <ImageFrame src="/images/ai-teacher-evaluation/screen-1.png" alt="Teacher Evaluation Page" />
-            </Section>
-            <Section>
-              <SubSubtitle>Selecting AI for Evaluation</SubSubtitle>
-              <ImageFrame src="/images/ai-teacher-evaluation/screen-2.png" alt="Selecting AI for Evaluation" />
-            </Section>
-            <Section>
-              <SubSubtitle>AI Evaluation in Progress</SubSubtitle>
-              <ImageFrame src="/images/ai-teacher-evaluation/screen-3.png" alt="AI Evaluation in Progress" />
-            </Section>
-            <Section>
-              <SubSubtitle>AI Evaluation Complete</SubSubtitle>
-              <ImageFrame src="/images/ai-teacher-evaluation/screen-4.png" alt="AI Evaluation" />
-            </Section>
+            <ImageStrip images={[
+              { src: '/images/ai-teacher-evaluation/screen-1.webp', alt: 'Teacher Evaluation Page', label: 'Teacher Evaluation Page' },
+              { src: '/images/ai-teacher-evaluation/screen-2.webp', alt: 'Selecting AI for Evaluation', label: 'Selecting AI for Evaluation' },
+              { src: '/images/ai-teacher-evaluation/screen-3.webp', alt: 'AI Evaluation in Progress', label: 'AI Evaluation in Progress' },
+              { src: '/images/ai-teacher-evaluation/screen-4.webp', alt: 'AI Evaluation Complete', label: 'AI Evaluation Complete' },
+            ]} />
           </Section>
 
           <Section>

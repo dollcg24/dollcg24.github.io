@@ -1,11 +1,11 @@
 import { useContext, Fragment, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { FiClock, FiUsers, FiBriefcase, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import {
   ThemeContext, CaseStudyContainer, CaseStudyHeader,
-  Section, Subtitle, SubSubtitle, Paragraph,
-  BulletList, ListItem, ImageFrame, PersonaCard, MetaGrid,
+  Section, Subtitle, Paragraph,
+  ImageStrip, PersonaCard, MetaGrid,
 } from '../../components/ui'
 import SEO from '../../components/SEO'
 
@@ -134,22 +134,33 @@ function DesignProcessFlow() {
 // ─── Mobile image slider ───────────────────────────────────────────────────────
 
 const SLIDES = [
-  { src: '/images/crime-labs/mobile-1.png', alt: 'Responsive design — screen 1' },
-  { src: '/images/crime-labs/mobile-2.png', alt: 'Responsive design — screen 2' },
+  { src: '/images/crime-labs/mobile-1.webp', alt: 'Responsive design — screen 1' },
+  { src: '/images/crime-labs/mobile-2.webp', alt: 'Responsive design — screen 2' },
 ]
+
+// New image slides in; old image stays put underneath (no exit animation)
+const enterVariants = {
+  enter: (d) => ({ x: `${d * 100}%` }),
+  center: { x: 0 },
+  // exit instantly — background layer shows the same image, no visual gap
+  exit: { x: 0, transition: { duration: 0 } },
+}
 
 function MobileSlider() {
   const isDark = useContext(ThemeContext)
   const [current, setCurrent] = useState(0)
+  const [dir, setDir] = useState(1)
   const total = SLIDES.length
-  const go = (dir) => setCurrent(i => (i + dir + total) % total)
-  const peekIdx = (current + 1) % total
-  const peekOnRight = peekIdx > current
-  const accent = isDark ? '#CF7A3E' : '#9B4F1E'
-  const muted  = isDark ? '#9A8470' : '#7A6752'
+  const accent   = isDark ? '#CF7A3E' : '#9B4F1E'
+  const muted    = isDark ? '#9A8470' : '#7A6752'
+  const inactive = isDark ? '#2E1F12' : '#E2D5C0'
+
+  const go = (d) => { setDir(d); setCurrent(i => (i + d + total) % total) }
+  // With 2 slides, the "other" index is always the previous
+  const prevIdx = (current + 1) % total
 
   const BtnStyle = (active) => ({
-    color: active ? muted : isDark ? '#2E1F12' : '#E2D5C0',
+    color: active ? muted : inactive,
     cursor: active ? 'pointer' : 'default',
     flexShrink: 0,
     padding: '10px',
@@ -159,24 +170,44 @@ function MobileSlider() {
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div className="flex items-center gap-4 sm:gap-6 w-full justify-center">
+      <div className="flex items-center gap-3 sm:gap-5 w-full justify-center">
         <button onClick={() => current > 0 && go(-1)} aria-label="Previous" disabled={current === 0} style={BtnStyle(current > 0)}>
           <FiChevronLeft size={22} />
         </button>
 
-        <div className="relative w-full max-w-[230px] sm:max-w-[260px]">
-          <div
-            className="absolute rounded-2xl overflow-hidden transition-all duration-300"
-            style={{ width: '74%', [peekOnRight ? 'right' : 'left']: 0, top: '5%', zIndex: 0, opacity: 0.35 }}
-          >
-            <img src={SLIDES[peekIdx].src} alt="" className="w-full h-auto" />
-          </div>
-          <div
-            className="relative z-10 rounded-2xl overflow-hidden shadow-xl transition-all duration-300"
-            style={{ width: '88%', marginLeft: peekOnRight ? 0 : 'auto', marginRight: peekOnRight ? 'auto' : 0 }}
-          >
-            <img key={current} src={SLIDES[current].src} alt={SLIDES[current].alt} className="w-full h-auto" />
-          </div>
+        {/* Slide track — no border, no shadow */}
+        <div
+          className="relative rounded-2xl overflow-hidden"
+          style={{ width: 'min(240px, 65vw)' }}
+        >
+          {/* Invisible spacer: keeps container height = image height */}
+          <img
+            src={SLIDES[0].src}
+            aria-hidden="true"
+            className="w-full h-auto block opacity-0 pointer-events-none select-none"
+          />
+          {/* Previous image always visible underneath — stays still */}
+          <img
+            src={SLIDES[prevIdx].src}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Current image slides in on top; exits instantly so prev layer shows through */}
+          <AnimatePresence custom={dir} initial={false}>
+            <motion.img
+              key={current}
+              src={SLIDES[current].src}
+              alt={SLIDES[current].alt}
+              custom={dir}
+              variants={enterVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.42, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </AnimatePresence>
         </div>
 
         <button onClick={() => current < total - 1 && go(1)} aria-label="Next" disabled={current === total - 1} style={BtnStyle(current < total - 1)}>
@@ -188,13 +219,13 @@ function MobileSlider() {
         {SLIDES.map((_, i) => (
           <button
             key={i}
-            onClick={() => setCurrent(i)}
+            onClick={() => { setDir(i > current ? 1 : -1); setCurrent(i) }}
             aria-label={`Go to slide ${i + 1}`}
             className="rounded-full transition-all duration-200"
             style={{
               width: i === current ? '20px' : '8px',
               height: '8px',
-              background: i === current ? accent : (isDark ? '#2E1F12' : '#E2D5C0'),
+              background: i === current ? accent : inactive,
             }}
           />
         ))}
@@ -214,14 +245,14 @@ export default function CrimeLabsCaseStudy({ isDark }) {
         title="Crime Investigation Virtual Labs"
         description="UX case study on designing Crime Investigation Virtual Labs — an interactive digital platform for forensic science education using immersive simulations."
         path="/crime-labs"
-        image="/images/crime-labs/thumbnail.png"
+        image="/images/crime-labs/thumbnail.webp"
       />
       <CaseStudyContainer>
 
         <CaseStudyHeader
           title="Crime Investigation Virtual Labs"
           meta="Sep 2020 – Jan 2021"
-          thumbnail="/images/crime-labs/thumbnail.png"
+          thumbnail="/images/crime-labs/thumbnail.webp"
           onBack={() => {
             navigate('/')
             setTimeout(() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }), 650)
@@ -297,7 +328,7 @@ export default function CrimeLabsCaseStudy({ isDark }) {
             <PersonaCard
               bgColor="bg-[#5C3C22]/90"
               name="Emma Williamson"
-              image="/images/shared/persona-female.png"
+              image="/images/shared/persona-female.webp"
               items={[
                 { label: 'Age', description: '18' },
                 { label: 'Occupation', description: 'Student' },
@@ -324,18 +355,11 @@ export default function CrimeLabsCaseStudy({ isDark }) {
             <Paragraph>
               We designed a virtual investigation lab around a simulated murder case, requiring students to find and analyze evidence to identify the culprit. The lab includes a fully interactive crime scene with evidence collection and analysis tools — closely replicating real-world forensic investigations in a safe, controlled environment.
             </Paragraph>
-            <Section>
-              <SubSubtitle>Lab Guide — Navigating & Interacting</SubSubtitle>
-              <ImageFrame src="/images/crime-labs/screen-1.png" alt="Lab guide" />
-            </Section>
-            <Section>
-              <SubSubtitle>Analyzing the Crime Scene</SubSubtitle>
-              <ImageFrame src="/images/crime-labs/screen-2.png" alt="Analyzing the crime scene" />
-            </Section>
-            <Section>
-              <SubSubtitle>Collecting the Evidence</SubSubtitle>
-              <ImageFrame src="/images/crime-labs/screen-3.png" alt="Collecting the evidence" />
-            </Section>
+            <ImageStrip images={[
+              { src: '/images/crime-labs/screen-1.webp', alt: 'Lab guide', label: 'Lab Guide — Navigating & Interacting' },
+              { src: '/images/crime-labs/screen-2.webp', alt: 'Analyzing the crime scene', label: 'Analyzing the Crime Scene' },
+              { src: '/images/crime-labs/screen-3.webp', alt: 'Collecting the evidence', label: 'Collecting the Evidence' },
+            ]} />
           </Section>
 
           <Section>

@@ -3,7 +3,7 @@ import { FiClock, FiUsers, FiBriefcase, FiTool } from 'react-icons/fi'
 import {
   ThemeContext, CaseStudyContainer, CaseStudyHeader,
   Section, Subtitle, SubSubtitle, Paragraph,
-  BulletList, ListItem, ImageFrame, MetaGrid,
+  BulletList, ListItem, ImageStrip, MetaGrid,
 } from '../../components/ui'
 import SEO from '../../components/SEO'
 
@@ -16,14 +16,14 @@ export default function TeacherDashboardCaseStudy({ isDark }) {
         title="Overhauling Teacher Dashboard in LMS"
         description="UX case study on redesigning a teacher dashboard in an LMS to provide actionable insights and improved teaching effectiveness."
         path="/teacher-dashboard"
-        image="/images/teacher-dashboard/thumbnail.png"
+        image="/images/teacher-dashboard/thumbnail.webp"
       />
       <CaseStudyContainer>
 
         <CaseStudyHeader
           title="Overhauling Teacher Dashboard in LMS"
           meta="LMS Redesign · Aug 2024 – Nov 2024"
-          thumbnail="/images/teacher-dashboard/thumbnail.png"
+          thumbnail="/images/teacher-dashboard/thumbnail.webp"
           onBack={() => {
             navigate('/')
             setTimeout(() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }), 650)
@@ -132,25 +132,20 @@ export default function TeacherDashboardCaseStudy({ isDark }) {
           <Section>
             <Subtitle>Designs</Subtitle>
             <Section>
-              <SubSubtitle>Low-fidelity Wireframe — Version 1</SubSubtitle>
-              <ImageFrame src="/images/teacher-dashboard/lofi-v1.png" alt="Low-fidelity wireframe v1" />
-            </Section>
-            <Section>
-              <SubSubtitle>Low-fidelity Wireframe — Version 2</SubSubtitle>
-              <ImageFrame src="/images/teacher-dashboard/lofi-v2.png" alt="Low-fidelity wireframe v2" />
-            </Section>
-            <Section>
-              <SubSubtitle>High-fidelity Wireframe — Version 1</SubSubtitle>
-              <ImageFrame src="/images/teacher-dashboard/hifi-v1.png" alt="High-fidelity wireframe v1" />
-            </Section>
-            <Section>
-              <SubSubtitle>High-fidelity Wireframe — Version 2</SubSubtitle>
-              <ImageFrame src="/images/teacher-dashboard/hifi-v2.png" alt="High-fidelity wireframe v2" />
+              <SubSubtitle>Wireframes</SubSubtitle>
+              <ImageStrip images={[
+                { src: '/images/teacher-dashboard/lofi-v1.webp', alt: 'Low-fidelity wireframe v1', label: 'Lo-fi Wireframe v1' },
+                { src: '/images/teacher-dashboard/lofi-v2.webp', alt: 'Low-fidelity wireframe v2', label: 'Lo-fi Wireframe v2' },
+                { src: '/images/teacher-dashboard/hifi-v1.webp', alt: 'High-fidelity wireframe v1', label: 'Hi-fi Wireframe v1' },
+                { src: '/images/teacher-dashboard/hifi-v2.webp', alt: 'High-fidelity wireframe v2', label: 'Hi-fi Wireframe v2' },
+              ]} />
             </Section>
             <Section>
               <SubSubtitle>Final Designs</SubSubtitle>
-              <ImageFrame src="/images/teacher-dashboard/final-v1.png" alt="Final design 1" />
-              <ImageFrame src="/images/teacher-dashboard/final-v2.png" alt="Final design 2" />
+              <ImageStrip images={[
+                { src: '/images/teacher-dashboard/final-v1.webp', alt: 'Final design 1', label: 'Final Design v1' },
+                { src: '/images/teacher-dashboard/final-v2.webp', alt: 'Final design 2', label: 'Final Design v2' },
+              ]} />
             </Section>
           </Section>
 

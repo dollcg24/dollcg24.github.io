@@ -3,7 +3,7 @@ import { FiClock, FiUsers, FiBriefcase, FiTool } from 'react-icons/fi'
 import {
   ThemeContext, CaseStudyContainer, CaseStudyHeader,
   Section, Subtitle, SubSubtitle, Paragraph,
-  BulletList, ListItem, ImageFrame, PersonaCard, StatCard, MetaGrid,
+  BulletList, ListItem, ImageStrip, PersonaCard, StatCard, MetaGrid,
 } from '../../components/ui'
 import SEO from '../../components/SEO'
 
@@ -16,14 +16,14 @@ export default function SportsAuctionCaseStudy({ isDark }) {
         title="AucBuzz – Sports Auction App"
         description="UX case study on AucBuzz, a digital platform for live sports player auctions."
         path="/sports-auction"
-        image="/images/sports-auction/thumbnail.png"
+        image="/images/sports-auction/thumbnail.webp"
       />
       <CaseStudyContainer>
 
         <CaseStudyHeader
           title="Sports Auction Application"
           meta="AucBuzz · Oct 2024 – Feb 2025"
-          thumbnail="/images/sports-auction/thumbnail.png"
+          thumbnail="/images/sports-auction/thumbnail.webp"
           onBack={() => {
             navigate('/')
             setTimeout(() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }), 650)
@@ -64,7 +64,7 @@ export default function SportsAuctionCaseStudy({ isDark }) {
                 bgColor="bg-[#7B3D20]/90"
                 name="Sarah"
                 role="Tournament Organizer"
-                image="/images/shared/persona-female.png"
+                image="/images/shared/persona-female.webp"
                 items={[
                   { label: 'Age', description: '28–45' },
                   { label: 'Role', description: 'Event Coordinator' },
@@ -77,7 +77,7 @@ export default function SportsAuctionCaseStudy({ isDark }) {
                 bgColor="bg-[#3A2616]/95"
                 name="Raj"
                 role="Team Captain"
-                image="/images/shared/persona-male.png"
+                image="/images/shared/persona-male.webp"
                 items={[
                   { label: 'Age', description: '25–40' },
                   { label: 'Role', description: 'Team owner / captain' },
@@ -98,7 +98,7 @@ export default function SportsAuctionCaseStudy({ isDark }) {
               className="rounded-2xl overflow-hidden border p-6"
               style={{ background: isDark ? '#1F130A' : '#EDE2D1', borderColor: isDark ? '#2E1F12' : '#E2D5C0' }}
             >
-              <img src="/images/sports-auction/flow.png" alt="AucBuzz information architecture flow" className="w-full h-auto block" />
+              <img src="/images/sports-auction/flow.webp" alt="AucBuzz information architecture flow" className="w-full h-auto block" />
             </div>
           </Section>
 
@@ -141,24 +141,12 @@ export default function SportsAuctionCaseStudy({ isDark }) {
 
           <Section>
             <Subtitle>Designs</Subtitle>
-            <Section>
-              <SubSubtitle>Player Teams Interface — Desktop</SubSubtitle>
-              <ImageFrame src="/images/sports-auction/teams-desktop.png" alt="Teams interface desktop" />
-            </Section>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-              <Section>
-                <SubSubtitle>Teams — Mobile</SubSubtitle>
-                <ImageFrame src="/images/sports-auction/teams-mobile.png" alt="Teams interface mobile" />
-              </Section>
-              <Section>
-                <SubSubtitle>Players — Mobile</SubSubtitle>
-                <ImageFrame src="/images/sports-auction/players-mobile.png" alt="Players interface mobile" />
-              </Section>
-            </div>
-            <Section>
-              <SubSubtitle>Auction Interface — Desktop</SubSubtitle>
-              <ImageFrame src="/images/sports-auction/auction.png" alt="Auction interface desktop" />
-            </Section>
+            <ImageStrip images={[
+              { src: '/images/sports-auction/teams-desktop.webp', alt: 'Teams interface desktop', label: 'Player Teams — Desktop' },
+              { src: '/images/sports-auction/teams-mobile.webp', alt: 'Teams interface mobile', label: 'Teams — Mobile' },
+              { src: '/images/sports-auction/players-mobile.webp', alt: 'Players interface mobile', label: 'Players — Mobile' },
+              { src: '/images/sports-auction/auction.webp', alt: 'Auction interface desktop', label: 'Auction Interface — Desktop' },
+            ]} />
           </Section>
 
           <Section>

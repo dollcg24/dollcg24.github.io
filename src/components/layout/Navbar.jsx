@@ -22,15 +22,23 @@ export default function Navbar({ isDark, setIsDark }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const scrollToSection = (hash) => {
+    const el = document.getElementById(hash)
+    if (!el) return
+    const navH = 64
+    const y = el.getBoundingClientRect().top + window.scrollY - navH
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
   const handleNavClick = (e, href) => {
     e.preventDefault()
     const hash = href.split('#')[1]
     setMenuOpen(false)
     if (location.pathname !== '/') {
       navigate('/')
-      setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' }), 650)
+      setTimeout(() => scrollToSection(hash), 650)
     } else {
-      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' })
+      scrollToSection(hash)
     }
   }
 

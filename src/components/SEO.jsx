@@ -1,6 +1,6 @@
 const SITE_URL = 'https://dollcg24.github.io'
 const DEFAULT_DESCRIPTION = 'UX Designer with 4 years of experience crafting simple, user-friendly digital solutions. Explore my portfolio of design case studies.'
-const DEFAULT_IMAGE = `${SITE_URL}/images/shared/hero.png`
+const DEFAULT_IMAGE = `${SITE_URL}/images/shared/hero.webp`
 
 export default function SEO({ title, description, path = '', image }) {
   const fullTitle = title

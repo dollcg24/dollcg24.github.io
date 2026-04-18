@@ -9,9 +9,16 @@ const itemVariant = {
   }),
 }
 
+const scrollTo = (id) => {
+  const el = document.getElementById(id)
+  if (!el) return
+  const y = el.getBoundingClientRect().top + window.scrollY - 64
+  window.scrollTo({ top: y, behavior: 'smooth' })
+}
+
 export default function Hero({ isDark }) {
-  const ink   = isDark ? '#F2E6D2' : '#2A1A0E'
-  const muted = isDark ? '#9A8470' : '#7A6752'
+  const ink    = isDark ? '#F2E6D2' : '#2A1A0E'
+  const muted  = isDark ? '#9A8470' : '#7A6752'
   const accent = isDark ? '#CF7A3E' : '#9B4F1E'
   const border = isDark ? '#2E1F12' : '#E2D5C0'
   const cardBg = isDark ? '#1F130A' : '#FFFFFF'
@@ -20,9 +27,9 @@ export default function Hero({ isDark }) {
   return (
     <section id="home" className="relative min-h-[88vh] flex flex-col justify-center py-16 sm:py-20">
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] gap-12 lg:gap-20 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] gap-10 lg:gap-20 items-center">
 
-        {/* ── Left: Text ── */}
+        {/* ── Left: Text column ── */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -41,10 +48,7 @@ export default function Hero({ isDark }) {
             variants={itemVariant}
             custom={0.08}
             className="font-display font-bold leading-[0.88] mb-8"
-            style={{
-              fontSize: 'clamp(3.5rem, 11vw, 8rem)',
-              color: ink,
-            }}
+            style={{ fontSize: 'clamp(3.5rem, 11vw, 8rem)', color: ink }}
           >
             Hi,&nbsp;I'm
             <br />
@@ -54,7 +58,7 @@ export default function Hero({ isDark }) {
           {/* Subtitle */}
           <motion.p
             variants={itemVariant}
-            custom={0.16}
+            custom={0.14}
             className="text-lg sm:text-xl leading-relaxed max-w-md mb-10"
             style={{ color: muted }}
           >
@@ -64,10 +68,10 @@ export default function Hero({ isDark }) {
           </motion.p>
 
           {/* CTAs */}
-          <motion.div variants={itemVariant} custom={0.24} className="flex flex-wrap gap-4">
+          <motion.div variants={itemVariant} custom={0.22} className="flex flex-wrap gap-4 mb-12 lg:mb-0">
             <a
               href="#work"
-              onClick={e => { e.preventDefault(); document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }) }}
+              onClick={e => { e.preventDefault(); scrollTo('work') }}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5"
               style={{ background: accent, color: '#fff' }}
             >
@@ -78,29 +82,66 @@ export default function Hero({ isDark }) {
             </a>
             <a
               href="#connect"
-              onClick={e => { e.preventDefault(); document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' }) }}
+              onClick={e => { e.preventDefault(); scrollTo('connect') }}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold border transition-all duration-200 hover:-translate-y-0.5"
               style={{ borderColor: border, color: ink }}
             >
               Get in Touch
             </a>
           </motion.div>
+
+          {/* Mobile portrait — shown below CTAs, hidden on desktop */}
+          <motion.div
+            variants={itemVariant}
+            custom={0.30}
+            className="lg:hidden flex justify-center"
+          >
+            <div className="relative" style={{ width: 'min(300px, 80vw)' }}>
+              {/* Warm blob */}
+              <div
+                className="absolute rounded-[2.5rem]"
+                style={{ inset: '-20px', background: blobBg }}
+              />
+              {/* Photo */}
+              <img
+                src="/images/shared/hero.webp"
+                alt="Dolly – UX Designer"
+                className="relative w-full h-auto rounded-[2rem] object-cover"
+                loading="eager"
+                style={{ boxShadow: isDark ? '0 24px 64px rgba(0,0,0,0.45)' : '0 24px 64px rgba(42,26,14,0.16)' }}
+              />
+              {/* Stats row */}
+              <div className="flex gap-3 mt-5 justify-center">
+                <div
+                  className="rounded-2xl px-5 py-3 text-center"
+                  style={{ background: cardBg, border: `1px solid ${border}` }}
+                >
+                  <p className="font-display text-2xl font-bold leading-none" style={{ color: accent }}>5+</p>
+                  <p className="text-[10px] font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>Years Exp.</p>
+                </div>
+                <div
+                  className="rounded-2xl px-5 py-3 text-center"
+                  style={{ background: cardBg, border: `1px solid ${border}` }}
+                >
+                  <p className="font-display text-2xl font-bold leading-none" style={{ color: accent }}>4</p>
+                  <p className="text-[10px] font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>Projects Done</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
-        {/* ── Right: Image ── */}
+        {/* ── Right: Image (desktop only) ── */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="relative hidden lg:block"
         >
-          {/* Warm blob behind image */}
-          <div
-            className="absolute -inset-8 rounded-[3rem]"
-            style={{ background: blobBg }}
-          />
+          {/* Warm blob */}
+          <div className="absolute -inset-8 rounded-[3rem]" style={{ background: blobBg }} />
 
-          {/* Dot-grid decoration */}
+          {/* Dot-grid */}
           <div className="absolute -top-6 -right-6 opacity-25" style={{ color: accent }}>
             <svg width="72" height="72" viewBox="0 0 72 72" fill="currentColor" aria-hidden="true">
               {[0,1,2,3].flatMap(row =>
@@ -113,45 +154,36 @@ export default function Hero({ isDark }) {
 
           {/* Hero image */}
           <motion.img
-            src="/images/shared/hero.png"
+            src="/images/shared/hero.webp"
             alt="Dolly – UX Designer"
             className="relative w-full h-auto rounded-[2rem] object-cover shadow-2xl"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            loading="eager"
           />
 
-          {/* Floating stats badge */}
+          {/* Years badge */}
           <motion.div
             initial={{ opacity: 0, y: 16, x: 10 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute -bottom-5 -left-6 rounded-2xl px-5 py-4 shadow-xl"
-            style={{
-              background: cardBg,
-              border: `1px solid ${border}`,
-            }}
+            style={{ background: cardBg, border: `1px solid ${border}` }}
           >
             <p className="font-display text-3xl font-bold leading-none" style={{ color: accent }}>5+</p>
-            <p className="text-xs font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>
-              Years Experience
-            </p>
+            <p className="text-xs font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>Years Experience</p>
           </motion.div>
 
-          {/* Projects done badge */}
+          {/* Projects badge */}
           <motion.div
             initial={{ opacity: 0, y: -12, x: -10 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             transition={{ duration: 0.6, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
             className="absolute -top-5 -right-4 rounded-2xl px-5 py-4 shadow-xl"
-            style={{
-              background: cardBg,
-              border: `1px solid ${border}`,
-            }}
+            style={{ background: cardBg, border: `1px solid ${border}` }}
           >
             <p className="font-display text-3xl font-bold leading-none" style={{ color: accent }}>4</p>
-            <p className="text-xs font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>
-              Projects Done
-            </p>
+            <p className="text-xs font-semibold tracking-wider uppercase mt-1" style={{ color: muted }}>Projects Done</p>
           </motion.div>
         </motion.div>
 

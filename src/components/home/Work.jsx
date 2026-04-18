@@ -7,7 +7,7 @@ const projects = [
     title: 'Sports Auction Application',
     sub: 'AucBuzz – Live Bidding Platform',
     date: 'Oct 2024 – Feb 2025',
-    image: '/images/sports-auction/thumbnail.png',
+    image: '/images/sports-auction/thumbnail.webp',
     pageId: 'sports-auction',
   },
   {
@@ -15,7 +15,7 @@ const projects = [
     title: 'Overhauling Teacher Dashboard',
     sub: 'LMS Redesign – Clarity & Task Flow',
     date: 'Aug 2024 – Nov 2024',
-    image: '/images/teacher-dashboard/thumbnail.png',
+    image: '/images/teacher-dashboard/thumbnail.webp',
     pageId: 'teacher-dashboard',
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     title: 'AI in Teacher Evaluation',
     sub: 'LMS Feature – Intelligent Assessment',
     date: 'Jun 2024 – Aug 2024',
-    image: '/images/ai-teacher-evaluation/thumbnail.png',
+    image: '/images/ai-teacher-evaluation/thumbnail.webp',
     pageId: 'ai-teacher-evaluation',
   },
   {
@@ -31,7 +31,7 @@ const projects = [
     title: 'Crime Investigation Virtual Labs',
     sub: 'EdTech – Immersive Forensic Simulations',
     date: 'Sep 2020 – Jan 2021',
-    image: '/images/crime-labs/thumbnail.png',
+    image: '/images/crime-labs/thumbnail.webp',
     pageId: 'crime-labs',
   },
 ]
