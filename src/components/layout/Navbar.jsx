@@ -50,9 +50,9 @@ export default function Navbar({ isDark, setIsDark }) {
 
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ y: -64, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
         background: cream,
@@ -66,9 +66,16 @@ export default function Navbar({ isDark, setIsDark }) {
       <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
 
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0">
-          <img src="/images/shared/logo.svg" alt="Dolly" className="h-7" />
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.45, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="flex-shrink-0"
+        >
+          <Link to="/">
+            <img src="/images/shared/logo.svg" alt="Dolly" className="h-7" />
+          </Link>
+        </motion.div>
 
         {/* Desktop links — absolutely centered so they don't push logo/controls */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10 absolute left-1/2 -translate-x-1/2">
@@ -77,9 +84,9 @@ export default function Navbar({ isDark, setIsDark }) {
               key={label}
               href={href}
               onClick={(e) => handleNavClick(e, href)}
-              initial={{ opacity: 0, y: -6 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08 + i * 0.05, duration: 0.35 }}
+              transition={{ delay: 0.3 + i * 0.07, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="relative text-xs font-semibold tracking-widest uppercase group"
               style={{ color: muted }}
               onMouseEnter={e => (e.currentTarget.style.color = ink)}
@@ -95,7 +102,12 @@ export default function Navbar({ isDark, setIsDark }) {
         </div>
 
         {/* Controls — always on right */}
-        <div className="flex items-center gap-2.5 flex-shrink-0">
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="flex items-center gap-2.5 flex-shrink-0"
+        >
           {/* Theme toggle */}
           <motion.button
             onClick={() => setIsDark(!isDark)}
@@ -140,7 +152,7 @@ export default function Navbar({ isDark, setIsDark }) {
               </motion.span>
             </AnimatePresence>
           </motion.button>
-        </div>
+        </motion.div>
       </div>
 
       {/* Mobile dropdown */}

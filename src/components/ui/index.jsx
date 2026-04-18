@@ -222,35 +222,41 @@ export function MetaGrid({ items }) {
   const ink    = isDark ? '#F2E6D2' : '#2A1A0E'
   const bg     = isDark ? '#1F130A' : '#EDE2D1'
 
-  const cols = items.length <= 3 ? items.length : 4
-
   return (
-    <div
-      className="overflow-hidden rounded-2xl border"
-      style={{
-        borderColor: border,
-        display: 'grid',
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-      }}
-    >
-      {items.map(({ icon: Icon, label, value }, i) => (
-        <div
-          key={i}
-          className="flex flex-col gap-2 px-5 py-5"
-          style={{
-            background: bg,
-            borderRight: i < items.length - 1 ? `1px solid ${border}` : 'none',
-          }}
-        >
-          <div className="flex items-center gap-1.5">
-            {Icon && <Icon size={12} style={{ color: muted }} />}
-            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: muted }}>
-              {label}
-            </span>
+    <div className="overflow-hidden rounded-2xl border" style={{ borderColor: border, background: bg }}>
+      {/* Mobile / tablet — vertical stack */}
+      <div className="lg:hidden flex flex-col">
+        {items.map(({ icon: Icon, label, value }, i) => (
+          <div
+            key={i}
+            className="flex flex-col gap-2 px-5 py-4"
+            style={{ borderBottom: i < items.length - 1 ? `1px solid ${border}` : 'none' }}
+          >
+            <div className="flex items-center gap-1.5">
+              {Icon && <Icon size={12} style={{ color: muted }} />}
+              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: muted }}>{label}</span>
+            </div>
+            <span className="text-sm font-semibold" style={{ color: ink }}>{value}</span>
           </div>
-          <span className="text-sm font-semibold" style={{ color: ink }}>{value}</span>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      {/* Desktop — horizontal row */}
+      <div className="hidden lg:grid" style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}>
+        {items.map(({ icon: Icon, label, value }, i) => (
+          <div
+            key={i}
+            className="flex flex-col gap-2 px-5 py-5"
+            style={{ borderRight: i < items.length - 1 ? `1px solid ${border}` : 'none' }}
+          >
+            <div className="flex items-center gap-1.5">
+              {Icon && <Icon size={12} style={{ color: muted }} />}
+              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: muted }}>{label}</span>
+            </div>
+            <span className="text-sm font-semibold" style={{ color: ink }}>{value}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -22,12 +22,13 @@ export default function About({ isDark }) {
   const chipBg = isDark ? '#1F130A' : '#EDE2D1'
 
   return (
-    <section id="about" className="py-20 sm:py-28">
+    <section className="py-20 sm:py-28">
 
       {/* Divider */}
       <div className="h-px w-full mb-16 sm:mb-20" style={{ background: border }} />
 
       <motion.div
+        id="about"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.15 }}

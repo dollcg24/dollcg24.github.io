@@ -48,13 +48,14 @@ export default function Work({ isDark }) {
   const cardBg = isDark ? '#1F130A' : '#FFFFFF'
 
   return (
-    <section id="work">
+    <section>
 
       {/* ── Section header ── */}
       <div className="pt-20 sm:pt-28 pb-14 sm:pb-20">
         <div className="h-px w-full mb-16 sm:mb-20" style={{ background: border }} />
 
         <motion.div
+          id="work"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -76,14 +77,6 @@ export default function Work({ isDark }) {
             >
               My <em style={{ fontStyle: 'italic', color: accent }}>Work.</em>
             </motion.h2>
-
-            <motion.p
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, delay: 0.1 } } }}
-              className="text-sm font-medium sm:mb-2"
-              style={{ color: muted }}
-            >
-              Select a project to read the case study
-            </motion.p>
           </div>
         </motion.div>
       </div>
